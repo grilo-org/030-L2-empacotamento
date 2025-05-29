@@ -1,13 +1,12 @@
-// src/main/java/br/wesley/empacotamentoapi/config/SecurityConfig.java
 package br.wesley.empacotamentoapi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
@@ -16,7 +15,7 @@ public class SecurityConfig {
     public InMemoryUserDetailsManager userDetailsService() {
         UserDetails user = User
                 .withUsername("admin")
-                .password("{noop}admin") // {noop} diz que não tem encoding
+                .password("{noop}admin") // {noop} diz que não há codificação
                 .roles("USER")
                 .build();
         return new InMemoryUserDetailsManager(user);
@@ -25,13 +24,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf().disable()
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                        .requestMatchers("/api/**").authenticated()
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/api/**" // LIBERA GERAL
+                        ).permitAll()
+                        .anyRequest().authenticated()
                 )
-                .httpBasic()
-                .and()
+                .httpBasic(httpBasic -> {
+                })
                 .build();
     }
 }

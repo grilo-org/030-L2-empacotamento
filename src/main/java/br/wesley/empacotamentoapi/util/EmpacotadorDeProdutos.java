@@ -11,10 +11,10 @@ public class EmpacotadorDeProdutos {
     private static final int VOLUME_CAIXA = COMPRIMENTO_CAIXA * LARGURA_CAIXA * ALTURA_CAIXA;
 
     public static class Produto {
-        public String nome;
-        public int comprimento;
-        public int largura;
-        public int altura;
+        private String nome;
+        private int comprimento;
+        private int largura;
+        private int altura;
 
         public Produto(String nome, int comprimento, int largura, int altura) {
             this.nome = nome;
@@ -25,6 +25,22 @@ public class EmpacotadorDeProdutos {
 
         public int getVolume() {
             return comprimento * largura * altura;
+        }
+
+        public String getNome() {
+            return nome;
+        }
+
+        public int getComprimento() {
+            return comprimento;
+        }
+
+        public int getLargura() {
+            return largura;
+        }
+
+        public int getAltura() {
+            return altura;
         }
 
         @Override
@@ -55,6 +71,16 @@ public class EmpacotadorDeProdutos {
     public static List<Caixa> empacotar(List<Produto> produtos) {
         List<Caixa> caixas = new ArrayList<>();
         for (Produto produto : produtos) {
+
+            // Caso o produto seja maior que a caixa, aloca sozinho
+            if (produto.getVolume() > VOLUME_CAIXA) {
+                Caixa caixaEspecial = new Caixa();
+                caixaEspecial.produtos.add(produto);
+                caixaEspecial.volumeUsado = produto.getVolume();
+                caixas.add(caixaEspecial);
+                continue;
+            }
+
             boolean empacotado = false;
             for (Caixa caixa : caixas) {
                 if (caixa.adicionarProduto(produto)) {
@@ -62,6 +88,7 @@ public class EmpacotadorDeProdutos {
                     break;
                 }
             }
+
             if (!empacotado) {
                 Caixa novaCaixa = new Caixa();
                 novaCaixa.adicionarProduto(produto);

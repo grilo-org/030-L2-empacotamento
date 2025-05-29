@@ -1,8 +1,8 @@
 package br.wesley.empacotamentoapi.controller;
 
+import br.wesley.empacotamentoapi.dto.CaixaDTO;
 import br.wesley.empacotamentoapi.dto.PedidoDTO;
 import br.wesley.empacotamentoapi.service.EmpacotamentoService;
-import br.wesley.empacotamentoapi.util.EmpacotadorDeProdutos;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +20,19 @@ public class PedidoController {
     @Autowired
     private EmpacotamentoService empacotamentoService;
 
-    // Armazena as caixas processadas do último pedido
-    private final List<EmpacotadorDeProdutos.Caixa> caixasProcessadas = new ArrayList<>();
+    private final List<CaixaDTO> caixasProcessadas = new ArrayList<>();
 
     @PostMapping("/empacotar")
     @Operation(summary = "Empacotar produtos de um pedido", description = "Retorna as caixas necessárias para empacotar os produtos enviados")
-    public ResponseEntity<List<EmpacotadorDeProdutos.Caixa>> empacotar(@RequestBody PedidoDTO pedidoDTO) {
-        caixasProcessadas.clear(); // Limpa antes de processar novo pedido
+    public ResponseEntity<List<CaixaDTO>> empacotar(@RequestBody PedidoDTO pedidoDTO) {
+        caixasProcessadas.clear();
         caixasProcessadas.addAll(empacotamentoService.processarPedido(pedidoDTO));
         return ResponseEntity.ok(caixasProcessadas);
     }
 
     @GetMapping("/caixas")
     @Operation(summary = "Listar caixas empacotadas", description = "Retorna as caixas geradas no último pedido processado")
-    public ResponseEntity<List<EmpacotadorDeProdutos.Caixa>> listarCaixasEmpacotadas() {
+    public ResponseEntity<List<CaixaDTO>> listarCaixasEmpacotadas() {
         return ResponseEntity.ok(caixasProcessadas);
     }
 }

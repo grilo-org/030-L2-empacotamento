@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  empacotamento-api:
+    image: empacotamento-api
+    container_name: empacotamento-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - empacotamento-network
+
+networks:
+  empacotamento-network:
+    driver: bridge

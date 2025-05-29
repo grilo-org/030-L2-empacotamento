@@ -1,10 +1,21 @@
 package br.wesley.empacotamentoapi.dto;
 
 public class ProdutoDTO {
+
     private String nome;
-    private int altura;
-    private int largura;
     private int comprimento;
+    private int largura;
+    private int altura;
+
+    public ProdutoDTO() {
+    }
+
+    public ProdutoDTO(String nome, int comprimento, int largura, int altura) {
+        this.nome = nome;
+        this.comprimento = comprimento;
+        this.largura = largura;
+        this.altura = altura;
+    }
 
     public String getNome() {
         return nome;
@@ -14,12 +25,12 @@ public class ProdutoDTO {
         this.nome = nome;
     }
 
-    public int getAltura() {
-        return altura;
+    public int getComprimento() {
+        return comprimento;
     }
 
-    public void setAltura(int altura) {
-        this.altura = altura;
+    public void setComprimento(int comprimento) {
+        this.comprimento = comprimento;
     }
 
     public int getLargura() {
@@ -30,11 +41,11 @@ public class ProdutoDTO {
         this.largura = largura;
     }
 
-    public int getComprimento() {
-        return comprimento;
+    public int getAltura() {
+        return altura;
     }
 
-    public void setComprimento(int comprimento) {
-        this.comprimento = comprimento;
+    public void setAltura(int altura) {
+        this.altura = altura;
     }
 }

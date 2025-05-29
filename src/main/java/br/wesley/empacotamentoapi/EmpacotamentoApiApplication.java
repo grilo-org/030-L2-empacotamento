@@ -1,4 +1,4 @@
-package br.wesley.empacotamento_api;
+package br.wesley.empacotamentoapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
